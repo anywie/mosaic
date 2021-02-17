@@ -51,13 +51,15 @@ export class DemoComponent {
     selectedPlacement: string = 'left';
     selectedTrigger: string = 'click';
     selectedSize: string = 'normal';
-    layoutClass: string = 'flex-65 layout-row layout-align-center-center';
+    layoutClass: string = 'flex-65 layout-row layout-align-end-start';
     content: string = 'button text';
+    customMargin: number = 10;
     userDefinedPlacementPriority: string[] = ['bottom', 'right'];
     multipleSelected: string[] = [];
 
     constructor() {
         this.popoverActiveStage = 1;
+        this.multipleSelected = ['bottomRight'];
     }
 
     changeStep(direction: number) {

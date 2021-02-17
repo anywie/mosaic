@@ -266,8 +266,6 @@ export function getMcPopoverInvalidPositionError(position: string) {
     return Error(`McPopover position "${position}" is invalid.`);
 }
 
-const VIEWPORT_MARGIN: number = 8;
-
 /* Constant distance between popover container border
 *  corner according to popover placement and middle of arrow
 * */
@@ -446,6 +444,20 @@ export class McPopover implements OnInit, OnDestroy {
     }
     private _mcPlacement: string = 'top';
 
+    @Input('mcPopoverViewMargin')
+    get mcViewMargin(): number {
+        return this._mcViewMargin;
+    }
+    set mcViewMargin(value: number) {
+        if (value) {
+            this._mcViewMargin = value;
+            this.updateCompValue('mcViewMargin', value);
+        } else {
+            this._mcViewMargin = 0;
+        }
+    }
+    private _mcViewMargin: number = 0;
+
     @Input('mcPopoverClass')
     get classList() {
         return this._classList;
@@ -511,7 +523,7 @@ export class McPopover implements OnInit, OnDestroy {
             .flexibleConnectedTo(this.elementRef)
             .withTransformOriginOn('.mc-popover')
             .withFlexibleDimensions(false)
-            .withViewportMargin(VIEWPORT_MARGIN)
+            .withViewportMargin(this.mcViewMargin)
             .withPositions([...EXTENDED_OVERLAY_POSITIONS]);
 
         const scrollableAncestors = this.scrollDispatcher.getAncestorScrollContainers(this.elementRef);
@@ -521,15 +533,15 @@ export class McPopover implements OnInit, OnDestroy {
         strategy.positionChanges
             .pipe(takeUntil(this.destroyed))
             .subscribe((change) => {
-            if (this.popover) {
-                this.onPositionChange(change);
-                if (change.scrollableViewProperties.isOverlayClipped && this.popover.mcVisible) {
-                    // After position changes occur and the overlay is clipped by
-                    // a parent scrollable then close the popover.
-                    this.ngZone.run(() => this.hide());
+                if (this.popover) {
+                    this.onPositionChange(change);
+                    if (change.scrollableViewProperties.isOverlayClipped && this.popover.mcVisible) {
+                        // After position changes occur and the overlay is clipped by
+                        // a parent scrollable then close the popover.
+                        this.ngZone.run(() => this.hide());
+                    }
                 }
-            }
-        });
+            });
 
         this.overlayRef = this.overlay.create({
             direction: this.direction,
@@ -612,7 +624,7 @@ export class McPopover implements OnInit, OnDestroy {
         if (((styleProperty === 'top' || styleProperty === 'bottom') &&
             elementHeight > ANCHOR_MIN_HEIGHT_WIDTH) ||
             ((styleProperty === 'left' || styleProperty === 'right') &&
-            elementWidth > ANCHOR_MIN_HEIGHT_WIDTH)) {
+                elementWidth > ANCHOR_MIN_HEIGHT_WIDTH)) {
             return;
         }
 

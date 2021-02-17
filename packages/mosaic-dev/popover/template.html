@@ -84,6 +84,12 @@
                     <mc-option value="flex-65 layout-row layout-align-end-end">End end</mc-option>
                 </mc-select>
             </mc-form-field>
+            <label for="input" class="flex mc-form-label">
+                View port margin
+            </label>
+            <mc-form-field id="input" class="padding-32">
+                <input mcInput [(ngModel)]="customMargin" placeholder="customMargin">
+            </mc-form-field>
         </div>
         <div class="flex flex-35 layout-align-center-center">
             <label for="trigger" class="flex mc-form-label">
@@ -207,6 +213,7 @@
                     [mcPopoverTrigger]="selectedTrigger"
                     [mcPopoverContent]="customContent"
                     [mcPopoverFooter]="customFooter"
+                    [mcPopoverViewMargin]="customMargin"
                     (mcPopoverPositionStrategyPlacementChange)="onStrategyPlacementChange($event)"
                     (mcPopoverVisibleChange)="onPopoverVisibleChange($event)">
                 Button
@@ -224,6 +231,7 @@
                        [mcPopoverTrigger]="selectedTrigger"
                        [mcPopoverContent]="customContent"
                        [mcPopoverFooter]="customFooter"
+                       [mcPopoverViewMargin]="customMargin"
                        (mcPopoverPositionStrategyPlacementChange)="onStrategyPlacementChange($event)"
                        (mcPopoverVisibleChange)="onPopoverVisibleChange($event)">
             </mc-form-field>
@@ -238,6 +246,7 @@
                    [mcPopoverTrigger]="selectedTrigger"
                    [mcPopoverContent]="customContent"
                    [mcPopoverFooter]="customFooter"
+                   [mcPopoverViewMargin]="customMargin"
                    (mcPopoverPositionStrategyPlacementChange)="onStrategyPlacementChange($event)"
                    (mcPopoverVisibleChange)="onPopoverVisibleChange($event)">
                 </i>
